@@ -37,7 +37,6 @@ def bot():
         yesterdaysBalance = cursor.fetchall()[-1][1];
     except :
         pass
-    
  
     todaysProfit = todaysBalance - yesterdaysBalance
 
@@ -52,9 +51,6 @@ def bot():
 def gweiToEth(gwei):
     return gwei / 1000000000000000000
 
-
-
-schedule.every(2).seconds.do(bot)
 schedule.every().day.at("09:00").do(bot)
 
 
