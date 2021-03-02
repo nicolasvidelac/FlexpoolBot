@@ -50,8 +50,6 @@ def gweiToEth(gwei):
     return gwei / 1000000000000000000
 
 schedule.every().day.at("09:00").do(bot)
-schedule.every(10).seconds.do(bot)
-
 
 while True:
     schedule.run_pending()
