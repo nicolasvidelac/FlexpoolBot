@@ -1,10 +1,8 @@
 from datetime import datetime
-from sqlite3.dbapi2 import Date
 import schedule
 import requests
 import sqlite3
 import time
-from datetime import date
 
 connection = sqlite3.connect('flexpool.db')
 cursor = connection.cursor();
@@ -52,6 +50,7 @@ def gweiToEth(gwei):
     return gwei / 1000000000000000000
 
 schedule.every().day.at("09:00").do(bot)
+schedule.every(10).seconds.do(bot)
 
 
 while True:
