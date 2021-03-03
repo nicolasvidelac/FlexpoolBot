@@ -22,11 +22,11 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS BALANCE
   ;''')
 
 
-def bot():
+def profitCalculator():
     url = 'https://flexpool.io/api/v1/miner/0x4ceAa7a6148a4a31512B8DA18376987AD2ECc4A3/balance'
-    respone = requests.get(url)
+    response = requests.get(url)
 
-    todaysBalance = gweiToEth(respone.json()['result'])
+    todaysBalance = gweiToEth(response.json()['result'])
 
     cursor.execute("SELECT * FROM BALANCE")
     yesterdaysBalance = 0
@@ -44,13 +44,21 @@ def bot():
     print("ganancias de hoy: " + str(todaysProfit))
     print("ganancias totales: " + str(todaysBalance))
 
+def expectedEarnings():
+    url = 'https://flexpool.io/api/v1/miner/0x4ceAa7a6148a4a31512B8DA18376987AD2ECc4A3/estimatedDailyRevenue'
+    response = requests.get(url)
+
+    print("ganancias esperadas: " + str(gweiToEth(response.json()['result'])))
+
+
 
 
 def gweiToEth(gwei):
     return gwei / 1000000000000000000
 
-schedule.every().day.at("09:00").do(bot)
+schedule.every().day.at("09:00").do(profitCalculator)
+schedule.every(1).hour.do(expectedEarnings)
 
 while True:
     schedule.run_pending()
-    time.sleep(1)
+    time.sleep(59)
