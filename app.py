@@ -6,9 +6,11 @@ import math
 import keyboard
 import os
 import time
+from colorama import Fore, Style, init
 
 connection = sqlite3.connect('flexpool.db')
 cursor = connection.cursor();
+init(convert=True)
 
 apiKey = str(os.environ.get('ETHERSCAN_APIKEY'))
 wallet = str(os.environ.get('ETH_WALLET'))
@@ -98,16 +100,16 @@ def truncate(number, digits) -> float:
 schedule.every().day.at("09:00").do(profitCalculator)
 
 while True:
-    if keyboard.is_pressed('1'):
-        print("\nExpected earnings:")
+    if keyboard.is_pressed('2'):
+        print(f"\n{Fore.LIGHTYELLOW_EX}Expected earnings:")
         expectedEarnings()
 
-    if keyboard.is_pressed('2'):
-        print("\nDaily report:")
+    elif keyboard.is_pressed('3'):
+        print(f"\n{Fore.LIGHTCYAN_EX}Daily report:")
         dailyReport()
 
-    if keyboard.is_pressed('3'):
-        print("\nCurrent profits:")
+    elif keyboard.is_pressed('1'):
+        print(f"\n{Fore.LIGHTGREEN_EX}Current profits:")
         profitCalculator(False)
 
     schedule.run_pending()
