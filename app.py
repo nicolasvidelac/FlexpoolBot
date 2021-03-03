@@ -51,7 +51,7 @@ def profitCalculator(save = True):
         connection.commit()
 
     print(
-        "ganancias de hoy:", str(truncate(todaysProfit,6)), "eth /", truncate(todaysProfit * getEthPrice(),3), "usd"
+        "ganancias de hoy: ", str(truncate(todaysProfit,6)), "eth /", truncate(todaysProfit * getEthPrice(),3), "usd"
         "\nganancias totales:", str(truncate(todaysBalance,6)), "eth /", truncate(todaysBalance * getEthPrice(),3), "usd"
     )
 
@@ -112,5 +112,11 @@ while True:
         print(f"\n{Fore.LIGHTGREEN_EX}Current profits:")
         profitCalculator(False)
 
+    elif keyboard.is_pressed('4'):
+        print(
+            f"\n{Fore.LIGHTGREEN_EX}Press 1 for current profits",
+            f"\n{Fore.LIGHTYELLOW_EX}Press 2 for expected earnings",
+            f"\n{Fore.LIGHTCYAN_EX}Press 3 for daily profits",
+        )
     schedule.run_pending()
-    time.sleep(0.1)
+    time.sleep(0.2)
