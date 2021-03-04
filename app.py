@@ -119,4 +119,4 @@ while True:
             f"\n{Fore.LIGHTCYAN_EX}Press 3 for daily profits",
         )
     schedule.run_pending()
-    time.sleep(0.2)
+    time.sleep(0.1)

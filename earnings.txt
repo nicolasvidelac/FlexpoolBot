@@ -1,0 +1,71 @@
+150 gwei * 21000 = 0.00315 eth = 4.76 usd
+0.0025 eth / dia => 0.05 en 20 dias => 0.1 en 40 dias
+
+30% interes / año => 0.082 % interes / dia
+50% interes / año => 0.137 % interes / dia
+
+0.00315 eth por transaccion
+X eth / transaccion
+
+Al 30% anual, tardo 40 dias en pagar el costo de la transaccion
+Al 50% anual, tardo 25 dias en pagar el costo de la transaccion
+
+
+
+
+si saco cada 0.05 eth
+0.00315 eth perdido / transaccion
+0.05 eth ganado / transaccion
+1 transaccion / 20 dias
+pago 6.3% interes / 20 dias
+gano 1.64% interes / 20 dias con 30% interes / año
+gano 2.73% interes / 20 dias con 50% interes / año
+
+
+si saco cada 0.075 eth
+0.00315 eth perdido / transaccion
+0.075 eth ganado / transaccion
+1 transaccion / 30 dias
+pago 4.2% interes / 30 dias
+gano 2.4% interes / 30 dias con 30% interes / año
+gano 4.8% interes / 30 dias con 50% interes / año
+
+0.003 eth / dia => 0.1 eth / 29 dias
+0.00315 eth perdido / transaccion
+0.1 eth ganado / transaccion
+1 transaccion / 29 dias
+pago 3.15% interes / 29 dias
+gano 2.32%  interes / 30 dias con 30% interes / año
+gano 4.64%  interes / 30 dias con 50% interes / año
+
+
+si saco cada 0.1 eth
+0.00315 interes eth transaccion
+0.1 eth /transaccion
+1 transaccion / 40 dias
+pago 3.15% interes / 40 dias
+gano 3.28% interes / 40 dias con 30% interes / año
+gano 5.47% interes / 40 dias con 50% interes / año
+
+Al 30% anual, tardo 40 dias en pagar el costo de la transaccion
+Al 50% anual, tardo 25 dias en pagar el costo de la transaccion
+
+
+
+
+
+si saco 0.12 eth => 
+	Al 30% anual, tardo 32 dias en pagar el costo de la transaccion
+	Al 50% anual, tardo 20 dias en pagar el costo de la transaccion
+
+si saco 0,1 eth =>
+	Al 30% anual, tardo 40 dias en pagar el costo de la transaccion
+	Al 50% anual, tardo 25 dias en pagar el costo de la transaccion
+
+si saco 0,05 eth =>
+	Al 30% anual, tardo 77 dias en pagar el costo de la transaccion
+	Al 50% anual, tardo 46 dias en pagar el costo de la transaccion
+
+
+1h ----- 0.0000989688 eth
+960 hs - 0.095010048
