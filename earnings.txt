@@ -69,3 +69,13 @@ si saco 0,05 eth =>
 
 1h ----- 0.0000989688 eth
 960 hs - 0.095010048
+
+0.09685
+
+
+HIVEON POOL
+0.015 eth / 7 dias =>
+	al 30% => genero 0.0000863014 por semana
+			  genero 0.0001726027 la segunda semana
+			  genero 0.0002589042 tercera semanas
+			  genero 0.0003452056 cuarta semana

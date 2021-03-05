@@ -50,9 +50,12 @@ def profitCalculator(save = True):
         cursor.execute("INSERT INTO BALANCE VALUES (?,?)", [datetime.today(), todaysBalance])
         connection.commit()
 
+    ethPrice = getEthPrice()
+
     print(
-        "ganancias de hoy: ", str(truncate(todaysProfit,6)), "eth /", truncate(todaysProfit * getEthPrice(),3), "usd"
-        "\nganancias totales:", str(truncate(todaysBalance,6)), "eth /", truncate(todaysBalance * getEthPrice(),3), "usd"
+        "ganancias de hoy: ", str(truncate(todaysProfit,6)), "eth / $", truncate(todaysProfit * ethPrice,3), "usd",
+        "\nganancias totales:", str(truncate(todaysBalance,6)), "eth / $", truncate(todaysBalance * ethPrice,3), "usd",
+        "\nprecio de eth: $", ethPrice, "usd"
     )
 
     return;
@@ -82,6 +85,20 @@ def dailyReport():
         "\nshares invalidas:  "  , str(invalidShares), "/", truncate(invalidShares/totalShares * 100,2) , "%"
     )
 
+def getHistory():
+    cursor.execute("SELECT * FROM PROFIT")
+    profit = cursor.fetchall()
+
+    cursor.execute("SELECT TOTAL FROM BALANCE")
+    balance = cursor.fetchall()[-1][0]
+
+    ethPrice = getEthPrice()
+
+    print("ganancias totales:", str(truncate(balance,6)), "eth / $", truncate(balance * ethPrice,3), "usd\n")
+    
+    for item in reversed(profit):
+        print("generado:", truncate(item[1],4), "fecha:", item[0][5:10])
+        
 def getEthPrice():
     url = 'https://api.etherscan.io/api?module=stats&action=ethprice&apikey=%s'%apiKey
     response = requests.get(url).json()['result']
@@ -112,11 +129,17 @@ while True:
         print(f"\n{Fore.LIGHTGREEN_EX}Current profits:")
         profitCalculator(False)
 
-    elif keyboard.is_pressed('4'):
+    elif keyboard.is_pressed('5'):
         print(
             f"\n{Fore.LIGHTGREEN_EX}Press 1 for current profits",
             f"\n{Fore.LIGHTYELLOW_EX}Press 2 for expected earnings",
             f"\n{Fore.LIGHTCYAN_EX}Press 3 for daily profits",
+            f"\n{Fore.LIGHTMAGENTA_EX}Press 4 for profits history",
         )
+
+    elif keyboard.is_pressed('4'):
+        print(f"\n{Fore.LIGHTMAGENTA_EX}Profit history...")
+        getHistory();
+
     schedule.run_pending()
     time.sleep(0.1)
