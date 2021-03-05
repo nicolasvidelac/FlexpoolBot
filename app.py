@@ -94,7 +94,7 @@ def getHistory():
 
     ethPrice = getEthPrice()
 
-    print("ganancias totales:", str(truncate(balance,6)), "eth / $", truncate(balance * ethPrice,3), "usd\n")
+    print("ganancias totales:", str(truncate(balance,6)), "eth\n")
     
     for item in reversed(profit):
         print("generado:", truncate(item[1],4), "fecha:", item[0][5:10])
