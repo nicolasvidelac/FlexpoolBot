@@ -129,7 +129,7 @@ while True:
         print(f"\n{Fore.LIGHTGREEN_EX}Current profits:")
         profitCalculator(False)
 
-    elif keyboard.is_pressed('5'):
+    elif keyboard.is_pressed('h'):
         print(
             f"\n{Fore.LIGHTGREEN_EX}Press 1 for current profits",
             f"\n{Fore.LIGHTYELLOW_EX}Press 2 for expected earnings",
