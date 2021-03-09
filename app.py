@@ -63,9 +63,12 @@ def profitCalculator(save = True):
 def expectedEarnings():
     url = 'https://flexpool.io/api/v1/miner/%s/estimatedDailyRevenue'%wallet
     response = requests.get(url)
-    earnings = gweiToEth( response.json()['result'])
+    earnings = truncate(gweiToEth( response.json()['result']),5)
     
-    print("ganancias esperadas:",str(earnings), "eth /", truncate(earnings * getEthPrice(),3), "usd")
+    print("ganancias por dia:   ",str(earnings), "eth /", truncate(earnings * getEthPrice(),0), "usd")
+    print("ganancias por semana:",str(earnings * 7), "eth /", truncate(earnings * 7 * getEthPrice(),0), "usd")
+    print("ganancias por mes:   ",str(earnings * 30), "eth /", truncate(earnings * 30 * getEthPrice(),0), "usd")
+
     return;
 
 def dailyReport():
@@ -97,7 +100,7 @@ def getHistory():
     print("ganancias totales:", str(truncate(balance,6)), "eth\n")
     
     for item in reversed(profit):
-        print("generado:", truncate(item[1],4), "fecha:", item[0][5:10])
+        print("generado:", truncate(item[1],4),"eth / $", truncate(item[1] * ethPrice,3) , "// fecha:", item[0][5:10])
         
 def getEthPrice():
     url = 'https://api.etherscan.io/api?module=stats&action=ethprice&apikey=%s'%apiKey
@@ -118,27 +121,27 @@ schedule.every().day.at("09:00").do(profitCalculator)
 
 while True:
     if keyboard.is_pressed('2'):
-        print(f"\n{Fore.LIGHTYELLOW_EX}Expected earnings:")
+        print(f"\n{Fore.LIGHTYELLOW_EX}Expected earnings at", str(datetime.now().time())[:5] + ":")
         expectedEarnings()
 
-    elif keyboard.is_pressed('3'):
-        print(f"\n{Fore.LIGHTCYAN_EX}Daily report:")
+    elif keyboard.is_pressed('4'):
+        print(f"\n{Fore.LIGHTWHITE_EX}Daily report at", str(datetime.now().time())[:5] + ":")
         dailyReport()
 
     elif keyboard.is_pressed('1'):
-        print(f"\n{Fore.LIGHTGREEN_EX}Current profits:")
+        print(f"\n{Fore.LIGHTGREEN_EX}Current profits at", str(datetime.now().time())[:5] + ":")
         profitCalculator(False)
 
-    elif keyboard.is_pressed('h'):
+    elif keyboard.is_pressed('5'):
         print(
             f"\n{Fore.LIGHTGREEN_EX}Press 1 for current profits",
             f"\n{Fore.LIGHTYELLOW_EX}Press 2 for expected earnings",
-            f"\n{Fore.LIGHTCYAN_EX}Press 3 for daily profits",
-            f"\n{Fore.LIGHTMAGENTA_EX}Press 4 for profits history",
+            f"\n{Fore.LIGHTCYAN_EX}Press 3 for profits history",
+            f"\n{Fore.LIGHTWHITE_EX}Press 4 for daily profits",
         )
 
-    elif keyboard.is_pressed('4'):
-        print(f"\n{Fore.LIGHTMAGENTA_EX}Profit history...")
+    elif keyboard.is_pressed('3'):
+        print(f"\n{Fore.LIGHTCYAN_EX}Profit history at", str(datetime.now().time())[:5] + ":")
         getHistory();
 
     schedule.run_pending()
