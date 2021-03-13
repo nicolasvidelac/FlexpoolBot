@@ -53,9 +53,9 @@ def profitCalculator(save = True):
     ethPrice = getEthPrice()
 
     print(
-        "ganancias de hoy: ", str(truncate(todaysProfit,6)), "eth / $", truncate(todaysProfit * ethPrice,3), "usd",
-        "\nganancias totales:", str(truncate(todaysBalance,6)), "eth / $", truncate(todaysBalance * ethPrice,3), "usd",
-        "\nprecio de eth: $", ethPrice, "usd"
+        "ganancias de hoy: ", str(truncate(todaysProfit,6)), "eth / $", "{0:0>5}".format(truncate(todaysProfit * ethPrice,2)), "usd",
+        "\nganancias totales:", str(truncate(todaysBalance,6)), "eth / $", truncate(todaysBalance * ethPrice,2), "usd",
+        "\nprecio de eth:   $", ethPrice, "usd"
     )
 
     return;
@@ -63,13 +63,25 @@ def profitCalculator(save = True):
 def expectedEarnings():
     url = 'https://flexpool.io/api/v1/miner/%s/estimatedDailyRevenue'%wallet
     response = requests.get(url)
-    earnings = truncate(gweiToEth( response.json()['result']),5)
+    ethPrice = getEthPrice();
+    earnings = gweiToEth( response.json()['result'])
     
-    print("ganancias por dia:   ",str(earnings), "eth /", truncate(earnings * getEthPrice(),0), "usd")
-    print("ganancias por semana:",str(earnings * 7), "eth /", truncate(earnings * 7 * getEthPrice(),0), "usd")
-    print("ganancias por mes:   ",str(earnings * 30), "eth /", truncate(earnings * 30 * getEthPrice(),0), "usd")
-
+    print("ganancias por dia:   ",truncate(earnings,4), "eth / $",    truncate(earnings * ethPrice,2))
+    print("ganancias por semana:",truncate(earnings*7,4), "eth / $",  truncate(earnings * 7 * ethPrice,2))
+    print("ganancias por mes:   ", truncate(earnings*30,4), "eth / $",truncate(earnings * 30 * ethPrice,2))
     return;
+
+def getGastPrice():
+    url = 'https://www.ethgasstation.info/https://ethgasstation.info/api/ethgasAPI.json?api-key=4a2aed973779b603681e6970b3a2091ad721e7c25fd9f4d59f0eeddc5a99'
+    response = (requests.get(url)).json()
+
+    gasPrice = float(response['safeLow'] / 10)
+    transactionFee = 21000
+    usdPrice = getEthPrice()
+
+    print(int(gasPrice), "gwei")
+    print(str(gasPrice / 1000000000 * transactionFee * usdPrice)[:4], "usd")
+
 
 def dailyReport():
     url = 'https://flexpool.io/api/v1/miner/%s/daily'%wallet
@@ -90,17 +102,18 @@ def dailyReport():
 
 def getHistory():
     cursor.execute("SELECT * FROM PROFIT")
-    profit = cursor.fetchall()
+    profit = cursor.fetchall()[-7:]
+    #Que solo me muestre el historial de la ultima semana
 
     cursor.execute("SELECT TOTAL FROM BALANCE")
     balance = cursor.fetchall()[-1][0]
 
     ethPrice = getEthPrice()
 
-    print("ganancias totales:", str(truncate(balance,6)), "eth\n")
+    print("ganancias totales:", truncate(balance,6), "eth\n")
     
     for item in reversed(profit):
-        print("generado:", truncate(item[1],4),"eth / $", truncate(item[1] * ethPrice,3) , "// fecha:", item[0][5:10])
+        print("generado:", format(truncate(item[1],4),'.4f'),"eth / $", format(truncate(item[1] * ethPrice,2),'.2f') , "// fecha:", item[0][5:10])
         
 def getEthPrice():
     url = 'https://api.etherscan.io/api?module=stats&action=ethprice&apikey=%s'%apiKey
@@ -120,29 +133,35 @@ def truncate(number, digits) -> float:
 schedule.every().day.at("09:00").do(profitCalculator)
 
 while True:
-    if keyboard.is_pressed('2'):
-        print(f"\n{Fore.LIGHTYELLOW_EX}Expected earnings at", str(datetime.now().time())[:5] + ":")
-        expectedEarnings()
-
-    elif keyboard.is_pressed('4'):
-        print(f"\n{Fore.LIGHTWHITE_EX}Daily report at", str(datetime.now().time())[:5] + ":")
-        dailyReport()
-
-    elif keyboard.is_pressed('1'):
+    if keyboard.is_pressed('1'):
         print(f"\n{Fore.LIGHTGREEN_EX}Current profits at", str(datetime.now().time())[:5] + ":")
         profitCalculator(False)
 
-    elif keyboard.is_pressed('5'):
-        print(
-            f"\n{Fore.LIGHTGREEN_EX}Press 1 for current profits",
-            f"\n{Fore.LIGHTYELLOW_EX}Press 2 for expected earnings",
-            f"\n{Fore.LIGHTCYAN_EX}Press 3 for profits history",
-            f"\n{Fore.LIGHTWHITE_EX}Press 4 for daily profits",
-        )
+    elif keyboard.is_pressed('2'):
+        print(f"\n{Fore.LIGHTYELLOW_EX}Expected earnings at", str(datetime.now().time())[:5] + ":")
+        expectedEarnings()
 
     elif keyboard.is_pressed('3'):
         print(f"\n{Fore.LIGHTCYAN_EX}Profit history at", str(datetime.now().time())[:5] + ":")
         getHistory();
+
+    elif keyboard.is_pressed('4'):
+        print(f"\n{Fore.LIGHTMAGENTA_EX}Gas price at", str(datetime.now().time())[:5] + ":")
+        getGastPrice()
+
+    elif keyboard.is_pressed('5'):
+        print(f"\n{Fore.LIGHTWHITE_EX}Daily report at", str(datetime.now().time())[:5] + ":")
+        dailyReport()
+
+    elif keyboard.is_pressed('6'):
+        print(
+            f"\n{Fore.LIGHTGREEN_EX}Press 1 for current profits",
+            f"\n{Fore.LIGHTYELLOW_EX}Press 2 for expected earnings",
+            f"\n{Fore.LIGHTCYAN_EX}Press 3 for profits history",
+            f"\n{Fore.LIGHTMAGENTA_EX}Press 4 for gas price",
+            f"\n{Fore.LIGHTWHITE_EX}Press 5 for daily profits",
+
+        )
 
     schedule.run_pending()
     time.sleep(0.1)
