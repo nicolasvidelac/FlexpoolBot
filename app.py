@@ -66,10 +66,10 @@ def profitCalculator(save = True):
     expectedTodaysEarnings = todaysProfit / minedMinutes * (24 * 60)
 
     print(
-        "ganancias hasta ahora: ", str(truncate(todaysProfit,6)), "eth / $", "{0:0>5}".format(truncate(todaysProfit * ethPrice,2)), "usd",
-        "\nganancias esperadas:   ", str(truncate(expectedTodaysEarnings, 6)), "eth / $", "{:0>5}".format(truncate(expectedTodaysEarnings * ethPrice,2)), "usd",
-        "\n\nganancias totales:", str(truncate(todaysBalance,6)), "eth / $", truncate(todaysBalance * ethPrice,2), "usd",
-        "\nprecio de eth:   $", ethPrice, "usd"
+        "today's profits until now:", str(truncate(todaysProfit,6)), "eth / $", "{0:0>5}".format(truncate(todaysProfit * ethPrice,2)), "usd",
+        "\ntoday's expected profits: ", str(truncate(expectedTodaysEarnings, 6)), "eth / $", "{:0>5}".format(truncate(expectedTodaysEarnings * ethPrice,2)), "usd",
+        "\n\nbalance:", str(truncate(todaysBalance,6)), "eth / $", truncate(todaysBalance * ethPrice,2), "usd",
+        "\neth price: $", ethPrice, "usd"
     )
 
     return;
@@ -80,9 +80,9 @@ def expectedEarnings():
     ethPrice = getEthPrice();
     earnings = gweiToEth( response.json()['result'])
     
-    print("ganancias por dia:   ",truncate(earnings,4), "eth / $",    truncate(earnings * ethPrice,2))
-    print("ganancias por semana:",truncate(earnings*7,4), "eth / $",  truncate(earnings * 7 * ethPrice,2))
-    print("ganancias por mes:   ", truncate(earnings*30,4), "eth / $",truncate(earnings * 30 * ethPrice,2))
+    print("profits per day:  ",truncate(earnings,4), "eth / $",    truncate(earnings * ethPrice,2))
+    print("profits per week: ",truncate(earnings*7,4), "eth / $",  truncate(earnings * 7 * ethPrice,2))
+    print("profits per month:", truncate(earnings*30,4), "eth / $",truncate(earnings * 30 * ethPrice,2))
     return;
 
 def getGastPrice():
@@ -108,11 +108,11 @@ def dailyReport():
     totalShares = validShares + staleShares + invalidShares
 
     print(
-        "hashrate reportado:", str(hashToMegaHash(response['reported_hashrate'])) , 'MH/s',
-        "\nhashrate efectivo: " , str(hashToMegaHash(response['effective_hashrate'])), 'MH/s',
-        "\n\nshares validas:    "    , str(validShares), "/"  , truncate(validShares/totalShares * 100,2) , "%"
-        "\nshares caducadas:  "  , str(staleShares), "/"  , truncate(staleShares/totalShares * 100,2) , "%"
-        "\nshares invalidas:  "  , str(invalidShares), "/", truncate(invalidShares/totalShares * 100,2) , "%"
+        "reported hashrate: ", str(hashToMegaHash(response['reported_hashrate'])) , 'MH/s',
+        "\neffective hashrate:" , str(hashToMegaHash(response['effective_hashrate'])), 'MH/s',
+        "\n\nvalid shares:    "    , str(validShares), "/"  , truncate(validShares/totalShares * 100,2) , "%"
+        "\nexpired shares:  "  , str(staleShares), "/"  , truncate(staleShares/totalShares * 100,2) , "%"
+        "\ninvalid shares:  "  , str(invalidShares), "/", truncate(invalidShares/totalShares * 100,2) , "%"
     )
 
 def getHistory():
@@ -130,11 +130,11 @@ def getHistory():
 
     for item in reversed(profit):
         total += item[1]
-        print("generado:", format(truncate(item[1],4),'.4f'),"eth / $", format(truncate(item[1] * ethPrice,2),'.2f') , "// fecha:", item[0][5:10])
+        print("profit:", format(truncate(item[1],4),'.4f'),"eth / $", format(truncate(item[1] * ethPrice,2),'.2f') , "// date:", item[0][5:10])
     
-    print("\nganancias ultima semana:", truncate(total,4), "eth / $", format(truncate(total * ethPrice,2),'.2f'))
+    print("\nearnings past week:", truncate(total,4), "eth / $", format(truncate(total * ethPrice,2),'.2f'))
     promedio = truncate(total / 7,4)
-    print("promedio  ultima semana:", promedio, "eth / $", format(truncate(promedio * ethPrice,2),'.2f'))
+    print("average past week: ", promedio, "eth / $", format(truncate(promedio * ethPrice,2),'.2f'))
 
 def getEthPrice():
     url = 'https://api.etherscan.io/api?module=stats&action=ethprice&apikey=%s'%apiKeyEther
@@ -159,7 +159,7 @@ while True:
         profitCalculator(False)
 
     elif keyboard.is_pressed('2'):
-        print(f"\n{Fore.LIGHTYELLOW_EX}Expected earnings at", str(datetime.now().time())[:5] + ":")
+        print(f"\n{Fore.LIGHTYELLOW_EX}Expected earnings according to flexpool at", str(datetime.now().time())[:5] + ":")
         expectedEarnings()
 
     elif keyboard.is_pressed('3'):
@@ -177,7 +177,7 @@ while True:
     elif keyboard.is_pressed('h'):
         print(
             f"\n{Fore.LIGHTGREEN_EX}Press 1 for current profits",
-            f"\n{Fore.LIGHTYELLOW_EX}Press 2 for expected earnings",
+            f"\n{Fore.LIGHTYELLOW_EX}Press 2 for expected earnings according to flexpool",
             f"\n{Fore.LIGHTCYAN_EX}Press 3 for profits history",
             f"\n{Fore.LIGHTMAGENTA_EX}Press 4 for gas price",
             f"\n{Fore.LIGHTWHITE_EX}Press 5 for daily profits",
