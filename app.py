@@ -14,8 +14,8 @@ init(convert=True)
 
 apiKeyEther = str(os.environ.get('ETHERSCAN_APIKEY'))
 apiKeyGasStation = str(os.environ.get('ETHGASSTATION_APIKEY'))
-wallet = str(os.environ.get('ETH_WALLET'))
 
+wallet = str(os.environ.get('ETH_WALLET'))
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS PROFIT
     (
