@@ -20,4 +20,5 @@ press h for help about what the bot does, but for now the bot you can:
 
 ## What it does
 the bot will create a database with two tables, balance and profit, in balance it will record your balance everyday at 09:00 am and calculate your profit (today's balance - yesterday's balance).
+
 So you can check your profits from the past week, with an average per day, calculate expected earnings, also retrieve expected earning according to flexpool and calculate the expected earning per week and per month (30 days).
