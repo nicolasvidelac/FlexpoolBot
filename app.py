@@ -12,8 +12,8 @@ connection = sqlite3.connect('flexpool.db')
 cursor = connection.cursor();
 init(convert=True)
 
-apiKeyEther = str(os.environ.get('ETHERSCAN_APIKEY'))
-apiKeyGasStation = str(os.environ.get('ETHGASSTATION_APIKEY'))
+apiKeyEther = '5ABVJPXNZM2W8VFMEGMHD3MVTP36T2N165'
+apiKeyGasStation = '4a2aed973779b603681e6970b3a2091ad721e7c25fd9f4d59f0eeddc5a99'
 
 wallet = str(os.environ.get('ETH_WALLET'))
 
