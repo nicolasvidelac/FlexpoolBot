@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 import schedule
 import requests
 import sqlite3
@@ -6,7 +6,7 @@ import math
 import keyboard
 import os
 import time
-from colorama import Fore, Style, init
+from colorama import Fore, init
 
 connection = sqlite3.connect('flexpool.db')
 cursor = connection.cursor();
