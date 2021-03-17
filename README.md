@@ -3,9 +3,9 @@ Simple python bot to check earnings in Flexpool mining pool.
 
 ## How to use
 In order to use the bot you need to create 3 environment variables:
-   ETHERSCAN_APIKEY: an apikey from etherscan.io (check: https://etherscan.io/apis), 
-   ETH_WALLET: your etherium wallet address used with flexpool (check: https://ethereum.org/en/wallets/),
-   ETHGASSTATION_APIKEY: an apikey from eth gas station (check: https://docs.ethgasstation.info/).
+   * ETHERSCAN_APIKEY: an apikey from etherscan.io (check: https://etherscan.io/apis), 
+   * ETH_WALLET: your etherium wallet address used with flexpool (check: https://ethereum.org/en/wallets/),
+   * ETHGASSTATION_APIKEY: an apikey from eth gas station (check: https://docs.ethgasstation.info/).
    
 after that just run:
 ```
