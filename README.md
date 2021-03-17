@@ -7,10 +7,8 @@ The bot will create a database with two tables, balance and profit, in balance i
 So you can check your profits from the past week, with an average per day, calculate expected earnings, also retrieve expected earning according to flexpool and calculate the expected earning per week and per month (30 days).
 
 ## How to use
-In order to use the bot you need to create 3 environment variables:
-   * ETHERSCAN_APIKEY: an apikey from etherscan.io (check: https://etherscan.io/apis), 
-   * ETH_WALLET: your etherium wallet address used with flexpool (check: https://ethereum.org/en/wallets/),
-   * ETHGASSTATION_APIKEY: an apikey from eth gas station (check: https://docs.ethgasstation.info/).
+In order to use the bot you need to create an environment variable:
+   * ETH_WALLET: the value is your etherium wallet address used with flexpool.
 
 Also, the program uses python and sqlite, so you need to install those as well:
    * python: https://www.python.org/downloads/.
