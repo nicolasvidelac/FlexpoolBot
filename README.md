@@ -12,11 +12,11 @@ after that just run:
 python app.py
 ```
 press h for help about what the bot does, but for now the bot you can:
-  Press 1 for current profits,
-  Press 2 for expected earnings,
-  Press 3 for profits history,
-  Press 4 for gas price,
-  Press 5 for daily stats.
+ * Press 1 for current profits,
+ * Press 2 for expected earnings,
+ * Press 3 for profits history,
+ * Press 4 for gas price,
+ * Press 5 for daily stats.
 
 ##What it does
 the bot will create a database with two tables, balance and profit, in balance it will record your balance everyday at 09:00 am and calculate your profit (today's balance - yesterday's balance).
