@@ -6,16 +6,20 @@ In order to use the bot you need to create 3 environment variables:
    * ETHERSCAN_APIKEY: an apikey from etherscan.io (check: https://etherscan.io/apis), 
    * ETH_WALLET: your etherium wallet address used with flexpool (check: https://ethereum.org/en/wallets/),
    * ETHGASSTATION_APIKEY: an apikey from eth gas station (check: https://docs.ethgasstation.info/).
-   
+
+Also, the program uses python and sqlite, so you need to install those as well:
+   * python: https://www.python.org/downloads/.
+   * sqlite: https://sqlite.org/download.html.
+
 after that just run:
 ```
 python app.py
 ```
 press h for help about what the bot does, but for now the bot you can:
- * Press 1 for current profits,
- * Press 2 for expected earnings,
- * Press 3 for profits history,
- * Press 4 for gas price,
+ * Press 1 for current profits.
+ * Press 2 for expected earnings.
+ * Press 3 for profits history.
+ * Press 4 for gas price.
  * Press 5 for daily stats.
 
 ## What it does
