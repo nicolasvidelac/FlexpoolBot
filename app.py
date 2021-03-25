@@ -34,9 +34,11 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS BALANCE
 def profitCalculator(save = True):
     url = 'https://flexpool.io/api/v1/miner/%s/balance'%wallet
 
-    response = requests.get(url)
-    
-    todaysBalance = gweiToEth(response.json()['result'])
+    try:    
+        response = requests.get(url)
+        todaysBalance = gweiToEth(response.json()['result'])
+    except :
+        return
 
     cursor.execute("SELECT * FROM BALANCE")
     yesterdaysBalance = 0
@@ -45,7 +47,9 @@ def profitCalculator(save = True):
         yesterdaysBalance = cursor.fetchall()[-1][1];
     except :
         pass
- 
+    
+    if todaysBalance < yesterdaysBalance: todaysBalance = yesterdaysBalance 
+
     todaysProfit = todaysBalance - yesterdaysBalance
 
     if save == True:
@@ -63,7 +67,12 @@ def profitCalculator(save = True):
     else:
         minedMinutes = minutosActual + 15 * 60
 
-    expectedTodaysEarnings = todaysProfit / minedMinutes * (24 * 60)
+    try:
+        expectedTodaysEarnings = todaysProfit / minedMinutes * (24 * 60)
+    except :
+        expectedTodaysEarnings = 0
+        pass
+
 
     print(
         "today's profits until now:", str(truncate(todaysProfit,6)), "eth / $", "{0:0>5}".format(truncate(todaysProfit * ethPrice,2)), "usd",
@@ -76,31 +85,27 @@ def profitCalculator(save = True):
 
 def expectedEarnings():
     url = 'https://flexpool.io/api/v1/miner/%s/estimatedDailyRevenue'%wallet
-    response = requests.get(url)
-    ethPrice = getEthPrice();
-    earnings = gweiToEth( response.json()['result'])
+
+    try:
+        response = requests.get(url)
+        ethPrice = getEthPrice();
+        earnings = gweiToEth( response.json()['result'])
+    except :
+        return
+
     
     print("profits per day:  ",truncate(earnings,4), "eth / $",    truncate(earnings * ethPrice,2))
     print("profits per week: ",truncate(earnings*7,4), "eth / $",  truncate(earnings * 7 * ethPrice,2))
     print("profits per month:", truncate(earnings*30,4), "eth / $",truncate(earnings * 30 * ethPrice,2))
     return;
 
-def getGastPrice():
-    url = 'https://www.ethgasstation.info/https://ethgasstation.info/api/ethgasAPI.json?api-key=%s'%apiKeyGasStation
-    response = (requests.get(url)).json()
-
-    gasPrice = float(response['safeLow'] / 10)
-    transactionFee = 21000
-    usdPrice = getEthPrice()
-
-    print(
-        int(gasPrice), "gwei\n" +
-        str(gasPrice / 1000000000 * transactionFee * usdPrice)[:4], "usd"
-    )
-
 def dailyReport():
     url = 'https://flexpool.io/api/v1/miner/%s/daily'%wallet
-    response = (requests.get(url)).json()['result']
+
+    try:
+        response = (requests.get(url)).json()['result']
+    except:
+        return
 
     validShares = int(response['valid_shares'])
     staleShares = int(response['stale_shares'])
@@ -121,9 +126,6 @@ def getHistory():
     profit = cursor.fetchall()[-7:]
     #Que solo me muestre el historial de la ultima semana
 
-    cursor.execute("SELECT TOTAL FROM BALANCE")
-    balance = cursor.fetchall()[-1][0]
-
     ethPrice = getEthPrice()
 
     total = 0
@@ -138,8 +140,29 @@ def getHistory():
 
 def getEthPrice():
     url = 'https://api.etherscan.io/api?module=stats&action=ethprice&apikey=%s'%apiKeyEther
-    response = requests.get(url).json()['result']
+
+    try:
+        response = requests.get(url).json()['result']
+    except:
+        return float(0)
+
     return float(response['ethusd']) 
+
+def getGastPrice():
+    url = 'https://www.ethgasstation.info/https://ethgasstation.info/api/ethgasAPI.json?api-key=%s'%apiKeyGasStation
+
+    try:
+        response = (requests.get(url)).json()
+    except:
+        return
+
+    gasPrice = float(response['safeLow'] / 10)
+    transactionFee = 21000
+    usdPrice = getEthPrice()
+
+    print(
+        int(gasPrice), "gwei / " + str(gasPrice / 1000000000 * transactionFee * usdPrice)[:4], "usd"
+    )
 
 def hashToMegaHash(hashrate):
     return truncate(hashrate / 1000000, 1)
@@ -167,7 +190,7 @@ while True:
         getHistory();
 
     elif keyboard.is_pressed('4'):
-        print(f"\n{Fore.MAGENTA}Gas price at", str(datetime.now().time())[:5] + ":")
+        print(f"\n{Fore.LIGHTMAGENTA_EX}Gas price at", str(datetime.now().time())[:5] + ":")
         getGastPrice()
 
     elif keyboard.is_pressed('5'):
