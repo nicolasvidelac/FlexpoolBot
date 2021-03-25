@@ -10,7 +10,7 @@ So you can check your profits from the past week, with an average per day, calcu
 In order to use the bot you need to create an environment variable:
    * ETH_WALLET: the value is your etherium wallet address used with flexpool.
 
-Also, the program uses python and sqlite, so you need to install those as well:
+Also, the program uses python and sqlite, so you need to install those:
    * python: https://www.python.org/downloads/.
    * sqlite: https://sqlite.org/download.html.
 
